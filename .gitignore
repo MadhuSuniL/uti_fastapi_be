@@ -1,0 +1,64 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environment
+# .env
+.venv/
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# Dependency directories
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Build artifacts
+build/
+dist/
+*.egg-info/
+.eggs/
+wheels/
+
+# Installer logs
+*.log
+
+# MyPy & Pyre type checker
+.mypy_cache/
+.pyre/
+
+# Pytest & Coverage reports
+.pytest_cache/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+.hypothesis/
+
+# Database & local settings
+local_settings.py
+db.sqlite3
+db.sqlite3-journal
+
+# FastAPI & ASGI related
+instance/
+.webassets-cache
+
+# IDE / Editor settings
+*.iml
+.idea/
+.vscode/
+*.sublime-workspace
+
+# Docker
+docker-compose.override.yml
+
+# Ignore all environment-specific config files
+*.env
+*.env.*
+*.env *

@@ -6,7 +6,7 @@ from app.utils.llm_prompts import PROMPT_FOR_CHAT
 
 class ChatService:
     def __init__(self):
-        self.llm_service = LLMService(max_tokens=64 * 3)  # Set max_tokens to 192 for chat responses
+        self.llm_service = LLMService(max_tokens=1024)  # Set max_tokens to 192 for chat responses
     
     def generate_response(self, messages : List[Tuple]) -> dict:
         langchain_messages = []

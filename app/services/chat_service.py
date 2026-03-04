@@ -6,7 +6,7 @@ from app.utils.llm_prompts import PROMPT_FOR_CHAT
 
 class ChatService:
     def __init__(self):
-        self.llm_service = LLMService()
+        self.llm_service = LLMService(max_tokens=128)  # Set max_tokens to 128 for all models in LLMService
     
     def generate_response(self, messages : List[Tuple]) -> dict:
         langchain_messages = []
@@ -18,19 +18,17 @@ class ChatService:
             elif role == "assistant":
                 langchain_messages.append(AIMessage(content=content))
 
-        ai_message = self.llm_service.invoke_messages(langchain_messages)
-        messages.append(("assistant", ai_message))
-
         final_messages = []
         
-        if len(messages) >= 9:  # If there are more than 9 messages, include the system message and the last 8 messages
-            final_messages.append(messages[0])  # system message
-            for message in messages[-6:]:  # last 6 messages (to keep the total at 7 including system message)
+        if len(langchain_messages) >= 9:  # If there are more than 9 messages, include the system message and the last 8 messages
+            final_messages.append(langchain_messages[0])  # system message
+            for message in langchain_messages[-6:]:  # last 6 messages (to keep the total at 7 including system message)
                 final_messages.append(message)
         else:
-            final_messages = messages
+            final_messages = langchain_messages
+
+        ai_message = self.llm_service.invoke_messages(final_messages)
 
         return {
-            "messages": final_messages,
-            "answer": ai_message
+            "assistant_message": ai_message
         }

@@ -33,7 +33,7 @@ app.add_middleware(
 uti_service = UTIService()
 
 
-@app.get("/")
+@app.get("/health")
 def health_check():
     return {"status": "UP", "message": "UTI Antibiotic Recommendation API is running."}
 

@@ -17,6 +17,7 @@ app = FastAPI(
 origins = [
     "http://localhost:8080",  # Your frontend
     "http://127.0.0.1:8080",  # Sometimes React uses this
+    "https://ai-uti.netlify.app",  # Deployed frontend
     # You can add more origins here if needed
 ]
 

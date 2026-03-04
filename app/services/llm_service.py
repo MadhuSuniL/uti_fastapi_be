@@ -8,7 +8,7 @@ from langchain_google_genai import ChatGoogleGenerativeAI
 
 
 class LLMService:
-    def __init__(self, max_tokens: int = 1024):
+    def __init__(self, max_tokens: int = 5000):
         self.model_list : List[Tuple[str, ChatGroq]] = [
             ("groq_openai_gpt_oss_120b_cloud", ChatGroq(model="openai/gpt-oss-120b", max_tokens=max_tokens)),
             ("groq_openai_gpt_oss_20b_cloud", ChatGroq(model="openai/gpt-oss-20b", max_tokens=max_tokens)),

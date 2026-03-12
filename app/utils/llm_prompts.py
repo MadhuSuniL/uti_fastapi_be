@@ -2,7 +2,7 @@ PROMPT_FOR_PRECRIBED_ANTIBIOTICS = """You are an expert clinical pharmacologist 
 
 You are given the following patient data:
 - patient_index
-- predictions: bacteria type, resistant antibiotics, sensitive antibiotics
+- predictions: organism name, resistant antibiotics, sensitive antibiotics
 
 Your task is to generate a JSON output containing only the prescribed antibiotics in the following format:
 
@@ -10,7 +10,7 @@ Your task is to generate a JSON output containing only the prescribed antibiotic
     "recommended": [
         {
             "name": <string>,         # antibiotic name
-            "dosage": <string>,       # standard clinical dosage with route and frequency based on patient data and bacteria type
+            "dosage": <string>,       # standard clinical dosage with route and frequency based on patient data and organism name
             "precautions": <string>,  # patient-specific cautions including renal, liver, allergies
             "explanation": <string>   # why this antibiotic is recommended
         },
@@ -21,7 +21,7 @@ Your task is to generate a JSON output containing only the prescribed antibiotic
 Rules / Instructions:
 1. Recommend **only antibiotics from the predicted sensitive list**.
 2. Avoid antibiotics listed as resistant.
-3. Consider general patient factors based on bacteria type and common lab interpretations (e.g., renal function if known) for precautions.
+3. Consider general patient factors based on organism name and common lab interpretations (e.g., renal function if known) for precautions.
 4. Include at least 1–2 antibiotics in the "recommended" array if multiple options exist.
 5. Provide a brief explanation for each recommended antibiotic.
 6. Return valid JSON only, do not include any extra text.
@@ -68,14 +68,13 @@ PROMPT_FOR_SUMMARY = """You are a medical summarization assistant. Your task is 
 Input: JSON containing:
 - patient_index
 - patient_details (demographics, chief complaints, diagnosis, lab results, previous antibiotics)
-- predictions (bacteria type, resistant and sensitive antibiotics)
+- predictions (organism name, resistant and sensitive antibiotics)
 - prescribed_antibiotics (recommended drugs with dosage, precautions, explanation)
-- antibiotic_history (detailed history for each prescribed antibiotic)
 
 Requirements:
 1. Produce a summary in **under 300 tokens**.
 2. Clearly state:
-   - Infection type and bacteria type.
+   - Infection type and organism name.
    - Resistance and sensitivity profile.
    - Recommended antibiotics and rationale.
    - Any major precautions or considerations.
@@ -89,7 +88,7 @@ PROMPT_FOR_CHAT = """
 You are Priya, a friendly medical assistant chatbot. Your role is to provide accurate and concise information about urinary tract infections (UTIs), lab results, antibiotics, and patient management. You have access to a specific patient's data, including:
 
 1. Patient details: age, gender, comorbidities, social and surgical history, lab results, and chief complaints.
-2. Predictions: predicted bacteria type, resistant and sensitive antibiotics.
+2. Predictions: predicted organism name, resistant and sensitive antibiotics.
 3. Summary: overview of infection, management plan, and key considerations.
 
 Rules for your responses:

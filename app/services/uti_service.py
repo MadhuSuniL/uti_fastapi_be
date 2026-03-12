@@ -1,6 +1,7 @@
-from app.inference.uti_inference import BacteriaInferenceEngine
+import json
+from app.inference.uti_inference import OrganismInferenceEngine
 from app.services.llm_service import LLMService
-from app.config import MODEL_DIR
+from app.config import MODEL_DIR, DATA_DIR
 from app.utils.llm_prompts import PROMPT_FOR_PRECRIBED_ANTIBIOTICS, PROMPT_FOR_ANTIBIOTIC_HISTORY, PROMPT_FOR_SUMMARY
 
 class UTIService:
@@ -9,24 +10,45 @@ class UTIService:
         Load the inference class and models once during service initialization
         """
         # Initialize inference class with paths
-        self.uti_system = BacteriaInferenceEngine(model_dir=MODEL_DIR)
+        self.uti_system = OrganismInferenceEngine(model_dir=MODEL_DIR)
         self.llm_service = LLMService()
+        self.antibiotic_history = self._load_antibiotic_history()
+        self.bacteria_types = self._load_bacteria_types()
+        self.patient_records = self._load_patient_records()
 
+
+    def _load_antibiotic_history(self):
+        with open(f"{DATA_DIR}/antibiotic_history.json", "r") as f:
+            return json.load(f)
+
+    def _load_bacteria_types(self):
+        with open(f"{DATA_DIR}/bacteria_types.json", "r") as f:
+            return json.load(f)
+        
+    def _load_patient_records(self):
+        with open(f"{DATA_DIR}/patient_records.json", "r") as f:
+            return json.load(f)
 
     def predict(self, patient_data: dict):
         """
-        Predict bacteria type and recommend antibiotics
+        Predict organism name and recommend antibiotics
         :param patient_data: Dictionary of patient input
-        :return: Dictionary with predicted bacteria, resistance probabilities, top antibiotics
+        :return: Dictionary with predicted organism, resistance probabilities, top antibiotics
         """
         # Run the inference class
         result = self.uti_system.predict(patient_data)
+        organism_name_prediction = result[0]["organism_name_prediction"]
+        bacteria_type_prediction = self.get_organism_name(organism_name_prediction)
         return {
             "patient_index" : result[0]["patient_index"],
-            "bacteria_type_prediction": result[0]["bacteria_type_prediction"],
+            "organism_name_prediction": organism_name_prediction,
+            "bacteria_type_prediction": bacteria_type_prediction,
             "predicted_resistant_antibiotics": result[0]["predicted_resistant_antibiotics"],
             "predicted_sensitive_antibiotics": result[0]["predicted_sensitive_antibiotics"]
         }    
+
+    def get_organism_name(self, organism: str) -> str:
+        return self.bacteria_types.get(organism, "Other bacteria type")
 
     def get_precribed_antibiotics(self, patient_data: dict, predictions: dict)-> dict:
         system_prompt = PROMPT_FOR_PRECRIBED_ANTIBIOTICS
@@ -43,13 +65,15 @@ class UTIService:
         }
         return self.llm_service.invoke_llm(system_prompt, user_prompt)
 
-    def get_summary(self, patient_data: dict, predictions: dict, prescribed_antibiotics: list, antibiotic_history: dict) -> str:
+    def get_antibiotic_history_from_file(self, antibiotics: list) -> dict:
+        return {antibiotic: self.antibiotic_history.get(antibiotic, {}) for antibiotic in antibiotics}
+
+    def get_summary(self, patient_data: dict, predictions: dict, prescribed_antibiotics: list) -> str:
         system_prompt = PROMPT_FOR_SUMMARY
         user_prompt = {
             "patient_data": patient_data,
             "predictions": predictions,
             "prescribed_antibiotics": prescribed_antibiotics,
-            "antibiotic_history": antibiotic_history
         }
         return self.llm_service.invoke_llm(system_prompt, user_prompt)
 
@@ -62,8 +86,8 @@ class UTIService:
             "patient_index": 0,
             "prescribed_antibiotics": [antibiotic["name"] for antibiotic in prescribed_antibiotics["recommended"]]
         }
-        antibiotic_history = self.get_antibiotic_history(prescribed_antibiotics_details)
-        summary = self.get_summary(patient_data, predictions, prescribed_antibiotics, antibiotic_history)
+        antibiotic_history = self.get_antibiotic_history_from_file(prescribed_antibiotics_details["prescribed_antibiotics"])
+        summary = self.get_summary(patient_data, predictions, prescribed_antibiotics)
         
         cbp_lymphocytes = normalized_patient_data.pop("cbp_lymphocytes", None)
         wbc = normalized_patient_data.pop("wbc", None)

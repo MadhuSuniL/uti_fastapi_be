@@ -13,7 +13,7 @@ def squeeze_column(x):
         return x.values.astype(str).flatten()
     return np.array(x).astype(str).flatten()
 
-class BacteriaInferenceEngine:
+class OrganismInferenceEngine:
     def __init__(self, model_dir="."):
         """
         Initializes the engine and attaches the squeeze function to the 
@@ -23,8 +23,8 @@ class BacteriaInferenceEngine:
         __main__.squeeze_column = squeeze_column
         
         try:
-            # Load Model 1 (Bacteria Type)
-            self.model_1 = joblib.load(os.path.join(model_dir, "model_1_bacteria.pkl"))
+            # Load Model 1 (Organism Name)
+            self.model_1 = joblib.load(os.path.join(model_dir, "model_1_organism.pkl"))
             
             # Load Model 2 (Resistance)
             self.model_2 = joblib.load(os.path.join(model_dir, "model_2_resistance.pkl"))
@@ -78,13 +78,41 @@ class BacteriaInferenceEngine:
         # Preprocess features
         X_processed = self._preprocess(input_df)
 
-        # 1. Bacteria Type Prediction (Model 1)
-        type_numeric = self.model_1.predict(X_processed)
-        type_map = {0: 'Gram Negative', 1: 'Gram Positive'}
-        type_labels = [type_map[p] for p in type_numeric]
+        # 1. Organism Name Prediction (Model 1)
+        name_numeric = self.model_1.predict(X_processed)
+        name_map = {
+            0 : 'Escherichia coli',
+            1 : 'Klebsiella pneumoniae',
+            2 : 'Staphylococcus saprophyticus',
+            3 : 'Pseudomonas aeruginosa',
+            4 : 'Proteus mirabilis',
+            5 : 'Enterococcus faecalis',
+            6 : 'Klebsiella oxytoca',
+            7 : 'Candida albicans',
+            8 : 'Acinetobacter baumannii',
+            9 : 'Streptococcus agalactiae',
+            10 : 'Enterobacter cloacae',
+            11 : 'Citrobacter freundii',
+            12 : 'Proteus vulgaris',
+            13 : 'Staphylococcus aureus',
+            14 : 'Serratia marcescens',
+            15 : 'Morganella morganii',
+            16 : 'Enterococcus faecium',
+            17 : 'Coagulase-negative Staphylococcus',
+            18 : 'Candida species',
+            19 : 'Citrobacter koseri',
+            20 : 'Providencia rettgeri',
+            21 : 'Stenotrophomonas maltophilia',
+            22 : 'Aerococcus urinae',
+            23 : 'Chryseobacterium indologenes',
+            24 : 'Burkholderia cepacia',
+            25 : 'Providencia stuartii',
+            26 : 'Candida glabrata'
+        }
+        name_labels = [name_map[p] for p in name_numeric]
 
         # Inject Model 1 output as a feature for Models 2 & 3
-        X_processed['TYPE_OF_BACTERIA_ENC'] = type_numeric
+        X_processed['ORGANISM_NAME_ENC'] = name_numeric
 
         # 2. Resistance Prediction (Model 2)
         res_binary = self.model_2.predict(X_processed)
@@ -99,7 +127,7 @@ class BacteriaInferenceEngine:
         for i in range(len(input_df)):
             results.append({
                 "patient_index": i,
-                "bacteria_type_prediction": type_labels[i],
+                "organism_name_prediction": name_labels[i],
                 "predicted_resistant_antibiotics": list(res_labels[i]),
                 "predicted_sensitive_antibiotics": list(sens_labels[i])
             })
@@ -111,35 +139,36 @@ class BacteriaInferenceEngine:
 # ==========================================
 if __name__ == "__main__":
     # 1. Initialize the engine (ensure .pkl files are in the same folder)
-    engine = BacteriaInferenceEngine()
+    engine = OrganismInferenceEngine()
 
     # 2. Sample Data (Matching your provided CSV structure)
     test_patient = {
-        "AGE": 52,
-        "GENDER": "Male",
+        "AGE": 37,
+        "GENDER": "Female",
         "DEPARTMENT": "Urology",
-        "CHIEF_COMPLAINTS": "Fever;Flank pain;Dysuria",
-        "COMORBIDITIES": "Diabetes",
-        "RISKFACTORS": "Catheterization",
+        "CHIEF_COMPLAINTS": "Burning urination;Urgency;Cloudy urine",
+        "COMORBIDITIES": "",
+        "RISKFACTORS": "Poor hygiene",
         "SURGICAL_HISTORY": "",
         "SOCIAL_HISTORY": "Non smoker",
-        "DIAGNOSIS": "Acute pyelonephritis",
-        "CLASSIFICATION_OF_UTI": "Complicated",
-        "TYPE_OF_UTI": "Acute",
-        "SITE_OF_INFECTION": "Upper UTI",
+        "DIAGNOSIS": "Cystitis",
+        "CLASSIFICATION_OF_UTI": "Uncomplicated UTI",
+        "TYPE_OF_UTI": "Cystitis",
+        "SITE_OF_INFECTION": "Lower Urinary Tract",
         "TYPE_OF_SAMPLE": "Urine",
-        "PREVIOUS_ANTIBIOTIC_USED": "Ciprofloxacin",
-        "CBP_LYMPHOCYTES": 24,
-        "WBC": 18200,
-        "POLYMORPHS": 78,
-        "CRP": 65,
-        "RFT_SERUM_CREATININE": 2.1,
-        "SERUM_URIC_ACID": 6.2,
-        "BLOOD_UREA": 48,
-        "CUE_PUS_CELLS": 28,
-        "EPITHELIAL_CELLS": 6,
-        "PROTEINS": "Positive",
-        "RBC": 6
+        "PREVIOUS_ANTIBIOTIC_USED": "Cotrimoxazole;Amoxicillin",
+        
+        "CBP_LYMPHOCYTES": 36,
+        "WBC": 9140,
+        "POLYMORPHS": 65,
+        "CRP": 9,
+        "RFT_SERUM_CREATININE": 0.8,
+        "SERUM_URIC_ACID": 4.2,
+        "BLOOD_UREA": 26,
+        "CUE_PUS_CELLS": 12,
+        "EPITHELIAL_CELLS": 3,
+        "PROTEINS": "Trace",
+        "RBC": 2
     }
 
     # 3. Run Inference

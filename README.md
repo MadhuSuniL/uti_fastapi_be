@@ -4,7 +4,7 @@
 
 **UTI Antibiotic AI** is an AI-powered Clinical Decision Support System designed to predict:
 
-1. 🦠 Bacteria Type
+1. 🦠 Organism Name
 2. 💊 Antibiotic Resistance
 3. ✅ Antibiotic Sensitivity
 4. 🏆 Ranked Personalized Antibiotic Recommendations
@@ -22,14 +22,14 @@ The system uses structured clinical data, machine learning models, and generativ
 1. **Patient Clinical Data Collection**
    Structured demographics, lab values, clinical history
 
-2. **Bacteria Prediction (Model 1)**
-   Predicts the most likely bacterial pathogen
+2. **Organism Prediction (Model 1)**
+   Predicts the most likely organisml pathogen
 
 3. **Resistance Prediction (Model 2)**
-   Identifies antibiotics the bacteria is resistant to
+   Identifies antibiotics the organism is resistant to
 
 4. **Sensitivity Prediction (Model 3)**
-   Identifies antibiotics the bacteria is sensitive to
+   Identifies antibiotics the organism is sensitive to
 
 5. **Ranked Recommendation Engine**
    Generates prioritized antibiotic recommendations
@@ -63,10 +63,10 @@ uti_fastapi/
 
 # 🧠 Machine Learning Models
 
-### 🦠 Model 1 – Bacteria Type Prediction
+### 🦠 Model 1 – Organism Name Prediction
 
 * Input: Structured clinical features
-* Output: Predicted bacterial pathogen
+* Output: Predicted organisml pathogen
 
 ### 💊 Model 2 – Antibiotic Resistance Prediction
 
@@ -180,7 +180,7 @@ FastAPI automatically generates Swagger documentation:
 4. Execute request
 5. Review:
 
-   * Predicted Bacteria
+   * Predicted Organism
    * Resistant Antibiotics
    * Sensitive Antibiotics
    * Ranked Recommendations

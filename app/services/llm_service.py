@@ -60,7 +60,7 @@ class LLMService:
         for model_name, model in self.model_list:
             try:
                 if TESTING_MODE:
-                    response = AIMessage(content="Test long response : Antibiotic resistance is a major global healthcare challenge. Empirical treatment may lead to ineffective prescriptions. Our system predicts bacteria type and antibiotic resistance using structured clinical data, providing ranked antibiotic recommendations.")  # Placeholder response to ensure the code runs without actual model invocation during testing
+                    response = AIMessage(content="Test long response : Antibiotic resistance is a major global healthcare challenge. Empirical treatment may lead to ineffective prescriptions. Our system predicts organism name and antibiotic resistance using structured clinical data, providing ranked antibiotic recommendations.")  # Placeholder response to ensure the code runs without actual model invocation during testing
                 else:
                     response = model.invoke(messages)
                 for msg in messages:

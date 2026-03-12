@@ -36,6 +36,7 @@ class PatientDetails(BaseModel):
     lab_results: LabResults
 
 class Predictions(BaseModel):
+    organism_name_prediction: str
     bacteria_type_prediction: str
     predicted_resistant_antibiotics: List[str]
     predicted_sensitive_antibiotics: List[str]

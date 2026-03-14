@@ -81,6 +81,7 @@ Requirements:
 3. Use clear and professional medical language.
 4. Focus only on clinical summary, **do not repeat full JSON or lab values**.
 5. Keep it readable and actionable for a healthcare professional.
+6. You can keep best markdown style but dont generate the tables and formats
 
 Output: Plain text summary."""
 

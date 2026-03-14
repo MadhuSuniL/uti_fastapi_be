@@ -66,7 +66,15 @@ class UTIService:
         return self.llm_service.invoke_llm(system_prompt, user_prompt)
 
     def get_antibiotic_history_from_file(self, antibiotics: list) -> dict:
-        return {antibiotic: self.antibiotic_history.get(antibiotic, {}) for antibiotic in antibiotics}
+        return {antibiotic: self.antibiotic_history.get(antibiotic, 
+                                                        {
+                                                            "background" : "No information available",
+                                                            "common_usage": "No information available", 
+                                                            "historical_success": "No information available", 
+                                                            "mechanism_of_action": "No information available", 
+                                                            "side_effects": "No information available", 
+                                                            "resistance_notes": "No information available"
+                                                        }) for antibiotic in antibiotics}
 
     def get_summary(self, patient_data: dict, predictions: dict, prescribed_antibiotics: list) -> str:
         system_prompt = PROMPT_FOR_SUMMARY

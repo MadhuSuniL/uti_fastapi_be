@@ -1,0 +1,94 @@
+{
+    "patient_index": 0,
+    "patient_details": {
+        "age": 55.0,
+        "gender": "Male",
+        "department": "Internal Medicine",
+        "chief_complaints": "Fever;Flank pain",
+        "comorbidities": "Diabetes",
+        "riskfactors": "",
+        "surgical_history": "Kidney surgery",
+        "social_history": "Smoker",
+        "diagnosis": "Acute pyelonephritis",
+        "classification_of_uti": "Complicated UTI",
+        "type_of_uti": "Acute Pyelonephritis (Right Kidney)",
+        "site_of_infection": "Kidney",
+        "type_of_sample": "Kidney Aspirate",
+        "previous_antibiotic_used": "",
+        "lab_results": {
+            "cbp_lymphocytes": 26.0,
+            "wbc": 17900.0,
+            "polymorphs": 77.0,
+            "crp": 64.0,
+            "rft_serum_creatinine": 2.0,
+            "serum_uric_acid": 6.1,
+            "blood_urea": 50.0,
+            "cue_pus_cells": 24.0,
+            "epithelial_cells": 5.0,
+            "proteins": "2+",
+            "rbc": 6.0
+        }
+    },
+    "predictions": {
+        "organism_name_prediction": "Pseudomonas aeruginosa",
+        "bacteria_type_prediction": "Gram-negative bacillus (Non-fermenter; major hospital-acquired uropathogen)",
+        "predicted_resistant_antibiotics": [
+            "Ciprofloxacin",
+            "Ofloxacin"
+        ],
+        "predicted_sensitive_antibiotics": [
+            "Colistin",
+            "Meropenem",
+            "Piperacillin-Tazobactam"
+        ]
+    },
+    "prescribed_antibiotics": {
+        "recommended": [
+            {
+                "name": "Meropenem",
+                "dosage": "1 g IV every 8 hours (adjust to 0.5 g IV every 8 hours if creatinine clearance <30 mL/min).",
+                "precautions": "Renal dose adjustment required due to serum creatinine 2.0 mg/dL; monitor renal function and serum drug levels. Use with caution in patients with a history of seizures. No known allergy reported.",
+                "explanation": "Meropenem is a broad‑spectrum carbapenem with excellent activity against Pseudomonas aeruginosa and is listed as a predicted sensitive agent. It provides reliable bactericidal coverage for complicated pyelonephritis and is preferred as first‑line therapy when renal function is accounted for."
+            },
+            {
+                "name": "Piperacillin‑Tazobactam",
+                "dosage": "4.5 g IV every 6 hours (reduce to 3.375 g IV every 6 hours if creatinine clearance 30–50 mL/min; 2.25 g IV every 6 hours if <30 mL/min).",
+                "precautions": "Adjust dose for impaired renal function (creatinine 2.0 mg/dL). Monitor for hypersensitivity reactions and hepatic enzymes. Caution in patients with beta‑lactam allergy.",
+                "explanation": "Piperacillin‑tazobactam is a beta‑lactam/β‑lactamase inhibitor combination active against Pseudomonas aeruginosa and is on the predicted sensitive list. It penetrates renal tissue well, making it suitable for acute pyelonephritis, with dosing adaptable to the patient’s renal status."
+            },
+            {
+                "name": "Colistin",
+                "dosage": "Loading dose 9 million IU IV, then 4.5 million IU IV every 12 hours (adjust interval or dose if creatinine clearance <30 mL/min).",
+                "precautions": "Highly nephrotoxic and neurotoxic; use only if carbapenem or beta‑lactam therapy fails or is contraindicated. Close monitoring of renal function and neuromuscular status is essential. Avoid in patients with pre‑existing severe renal impairment unless benefits outweigh risks.",
+                "explanation": "Colistin is a polymyxin antibiotic active against multidrug‑resistant Pseudomonas aeruginosa and is listed as a predicted sensitive agent. It is offered as a reserve option for cases where meropenem or piperacillin‑tazobactam cannot be used or when resistance emerges."
+            }
+        ]
+    },
+    "antibiotic_history": {
+        "Meropenem": {
+            "background": "A second-generation carbapenem introduced in 1996. It improved upon imipenem by being more stable to kidney enzymes (no cilastatin needed), having better CNS penetration, and a lower risk of causing seizures.",
+            "common_usage": "The 'standard' carbapenem for serious hospital infections. Used for meningitis, febrile neutropenia, and severe intra-abdominal infections. It is often the 'go-to' drug when a patient is in septic shock and the cause is unknown.",
+            "historical_success": "Meropenem has become the 'benchmark' for treating ESBL-producing bacteria. For decades, it has been the most reliable drug for saving patients from multidrug-resistant E. coli and Klebsiella infections.",
+            "mechanism_of_action": "Broad-spectrum bactericidal action that binds to PBPs (especially PBP-2, 3, and 4) to destroy the cell wall. It is exceptionally stable against the enzymes that destroy penicillins and cephalosporins.",
+            "side_effects": "Very well-tolerated compared to most other 'heavy-duty' antibiotics. The most common side effects are headache, nausea, and injection site reactions. The seizure risk is much lower than imipenem.",
+            "resistance_notes": "The global spread of NDM (New Delhi Metallo-beta-lactamase) and KPC enzymes has significantly threatened meropenem. In some parts of the world, more than 50% of Klebsiella are now resistant to meropenem."
+        },
+        "Piperacillin‑Tazobactam": {
+            "background": "No information available",
+            "common_usage": "No information available",
+            "historical_success": "No information available",
+            "mechanism_of_action": "No information available",
+            "side_effects": "No information available",
+            "resistance_notes": "No information available"
+        },
+        "Colistin": {
+            "background": "Also known as Polymyxin E. Discovered in the 1940s but largely abandoned in the 1970s due to high toxicity. It was 'resurrected' in the late 1990s as a desperate last-line therapy for 'pan-resistant' Gram-negative superbugs.",
+            "common_usage": "Used only for the most severe, multidrug-resistant infections, such as those caused by KPC-producing Klebsiella or MDR Acinetobacter. It is typically given as an IV prodrug called Colistimethate Sodium (CMS).",
+            "historical_success": "Colistin has essentially served as the 'last wall of defense' for modern medicine. Without it, many patients with carbapenem-resistant infections would have had zero treatment options over the last two decades.",
+            "mechanism_of_action": "Acts like a 'detergent.' It is a cationic peptide that binds to the negatively charged Lipopolysaccharide (LPS) in the outer membrane of Gram-negative bacteria. It physically disrupts the membrane, causing the cell contents to leak out.",
+            "side_effects": "High risk of nephrotoxicity (up to 50% of patients) and neurotoxicity (paresthesias, muscle weakness). Because it is so toxic, doctors must carefully balance the dose to kill the infection without destroying the patient's kidneys.",
+            "resistance_notes": "For a long time, resistance was rare, but the discovery of the 'mcr-1' gene on a plasmid in 2015 sent shockwaves through the medical community, as it meant colistin resistance could now spread easily between different bacterial species."
+        }
+    },
+    "summary": "**Infection:** Complicated acute pyelonephritis (right kidney) in a 55‑year‑old diabetic male with prior kidney surgery.  \n\n**Predicted pathogen:** *Pseudomonas aeruginosa* (Gram‑negative non‑fermenter, common hospital‑acquired uropathogen).  \n\n**Resistance profile:** Predicted resistance to fluoroquinolones – ciprofloxacin and ofloxacin.  \n\n**Sensitivity profile:** Predicted susceptibility to meropenem, piperacillin‑tazobactam, and colistin.  \n\n**Recommended therapy:**  \n\n1. **Meropenem 1 g IV q8 h** (adjust to 0.5 g IV q8 h if creatinine clearance < 30 mL/min).  \n   *Rationale:* Carbapenem with potent, reliable activity against *P. aeruginosa*; first‑line for severe, complicated pyelonephritis.  \n\n2. **Piperacillin‑tazobactam 4.5 g IV q6 h** (dose reduced to 3.375 g q6 h for CrCl 30‑50 mL/min; 2.25 g q6 h if < 30 mL/min).  \n   *Rationale:* Broad‑spectrum β‑lactam/β‑lactamase inhibitor active against the organism; excellent renal tissue penetration.  \n\n3. **Colistin (polymyxin E)** – loading dose 9 million IU IV, then 4.5 million IU IV q12 h (dose/interval adjustment if CrCl < 30 mL/min).  \n   *Rationale:* Reserve agent for multidrug‑resistant *P. aeruginosa*; to be used only if carbapenem or β‑lactam therapy is contraindicated or fails.  \n\n**Key precautions:**  \n- Renal dose adjustments are mandatory (serum creatinine 2.0 mg/dL). Monitor renal function and, for meropenem, serum drug levels; for colistin, watch for nephro‑ and neurotoxicity.  \n- Meropenem: caution in patients with seizure history.  \n- Piperacillin‑tazobactam: assess for β‑lactam allergy; monitor hepatic enzymes.  \n- Colistin: avoid unless benefits outweigh high nephrotoxic risk; monitor neuromuscular status.  \n\nThese agents provide targeted, bactericidal coverage while accounting for the patient’s impaired renal function and the predicted antimicrobial susceptibility pattern."
+}

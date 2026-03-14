@@ -1,3 +1,6 @@
+import io
+import base64
+from fastapi.responses import StreamingResponse
 from fastapi import FastAPI
 from app.config import TESTING_MODE
 from fastapi.middleware.cors import CORSMiddleware
@@ -5,6 +8,7 @@ from app.schemas.patient import PatientData
 from app.schemas.final_output import FinalResult
 from app.schemas.chat import Messages
 from app.services.uti_service import UTIService
+from app.services.report_service import ReportService
 from app.services.chat_service import ChatService
 
 # Initialize FastAPI app
@@ -133,9 +137,32 @@ def predict_antibiotics(patient: PatientData):
     except Exception as e:
         raise e
 
+
 @app.get("/patient_records")
 def get_patient_records():
     return uti_service._load_patient_records()
+
+
+@app.post("/generate_report")
+def generate_report(results: dict):
+    # Initialize report service
+    report_service = ReportService()
+    
+    # Generate PDF as base64 string
+    base64_pdf = report_service.generate_report(results)
+    
+    # Convert base64 to bytes
+    pdf_bytes = io.BytesIO(base64.b64decode(base64_pdf))
+    
+    # Return as StreamingResponse
+    return StreamingResponse(
+        pdf_bytes,
+        media_type="application/pdf",
+        headers={
+            "Content-Disposition": "inline; filename=finalreport.pdf"
+        }
+    )
+
 
 @app.post("/chat")
 def chat(messages: Messages):
